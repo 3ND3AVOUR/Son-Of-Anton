@@ -11,7 +11,7 @@
   --bg:#05070A; --elev:#0B0F15; --fg:#DCE8F0; --muted:#64798A;
   --accent:#37D8FF; --accent-2:#E8A33D; --accent-3:#C8384A;
   --line:rgba(120,190,215,.16); --line-2:rgba(120,190,215,.34);
-  --radius:2px; --bw:1px; --rot:0deg;
+  --radius:2px; --bw:1px; --rot:0deg; --ink:#000;
   --f-display:'Archivo',system-ui,sans-serif;
   --f-body:'Archivo',system-ui,sans-serif;
   --f-mono:'IBM Plex Mono',ui-monospace,monospace;
@@ -36,15 +36,16 @@
   color-scheme:dark;
 }
 :root[data-theme="web-head"]{
-  --bg:#EFEBE3; --elev:#FBF9F5; --fg:#14110F; --muted:#6B655C;
-  --accent:#D01F26; --accent-2:#1F3A93; --accent-3:#E8B500;
-  --line:rgba(20,17,15,.2); --line-2:rgba(20,17,15,.85);
-  --radius:0px; --bw:1.5px; --rot:0deg;
-  --f-display:'Anton',Impact,sans-serif; --f-body:'Source Serif 4',Georgia,serif;
+  --bg:#120A24; --elev:#1C1038; --fg:#F7F3EA; --muted:#9E8AC8;
+  --accent:#EA3D8A; --accent-2:#22D3EE; --accent-3:#FFE600;
+  --ink:#0B0618;
+  --line:rgba(234,61,138,.3); --line-2:rgba(234,61,138,.75);
+  --radius:0px; --bw:2px; --rot:0deg;
+  --f-display:'Anton',Impact,sans-serif; --f-body:'Archivo',system-ui,sans-serif;
   --f-mono:'IBM Plex Mono',monospace; --f-pop:'Bangers',Impact,cursive;
-  --dsp-w:400; --dsp-tr:-.015em; --dsp-lh:.85; --dsp-tt:uppercase; --dsp-skew:0deg; --lbl-tr:.24em;
+  --dsp-w:400; --dsp-tr:-.012em; --dsp-lh:.84; --dsp-tt:uppercase; --dsp-skew:0deg; --lbl-tr:.16em;
   --ease:cubic-bezier(.34,1.3,.64,1); --dur:190ms;
-  color-scheme:light;
+  color-scheme:dark;
 }
 :root[data-theme="ki-surge"]{
   --bg:#08080C; --elev:#101018; --fg:#F3E9D2; --muted:#877D67;
@@ -118,9 +119,12 @@ button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor
 }
 :root[data-theme="web-head"] #amb{
   background:
-    radial-gradient(circle at 1px 1px, rgba(20,17,15,.16) .9px, transparent 1.5px) 0 0/8px 8px,
-    radial-gradient(900px 640px at 84% 2%, rgba(208,31,38,.13), transparent 62%),
-    radial-gradient(800px 600px at 2% 98%, rgba(31,58,147,.12), transparent 62%);
+    radial-gradient(circle at 2px 2px, rgba(234,61,138,.34) 1.7px, transparent 2.5px) 0 0/11px 11px,
+    radial-gradient(circle at 2px 2px, rgba(34,211,238,.24) 1.6px, transparent 2.4px) 4px 3px/11px 11px,
+    radial-gradient(circle at 2px 2px, rgba(255,230,0,.15) 1.5px, transparent 2.3px) 7px 6px/11px 11px,
+    radial-gradient(900px 660px at 86% 2%, rgba(234,61,138,.3), transparent 62%),
+    radial-gradient(820px 640px at 2% 98%, rgba(123,47,247,.34), transparent 62%),
+    linear-gradient(#120A24,#120A24);
 }
 :root[data-theme="ki-surge"] #amb{
   background:
@@ -139,6 +143,64 @@ button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor
     radial-gradient(1000px 700px at 12% 2%, rgba(255,255,255,.34), transparent 60%),
     radial-gradient(800px 620px at 94% 98%, rgba(36,64,110,.18), transparent 60%);
 }
+
+/* ============================================================
+   SPIDER-VERSE TREATMENT (web-head only)
+   CMYK misregistration, chromatic aberration, caption boxes.
+   ============================================================ */
+/* chromatic aberration: two offset colour separations behind the fill */
+:root[data-theme="web-head"] h1,
+:root[data-theme="web-head"] h2{position:relative; isolation:isolate}
+:root[data-theme="web-head"] h1::before,:root[data-theme="web-head"] h1::after,
+:root[data-theme="web-head"] h2::before,:root[data-theme="web-head"] h2::after{
+  content:attr(data-text); position:absolute; inset:0; pointer-events:none;
+  mix-blend-mode:screen; z-index:-1;
+}
+:root[data-theme="web-head"] h1::before{color:#EA3D8A; transform:translate(-5px,3px)}
+:root[data-theme="web-head"] h1::after {color:#22D3EE; transform:translate(5px,-3px)}
+:root[data-theme="web-head"] h2::before{color:#EA3D8A; transform:translate(-3px,2px)}
+:root[data-theme="web-head"] h2::after {color:#22D3EE; transform:translate(3px,-2px)}
+/* labels become comic caption boxes */
+:root[data-theme="web-head"] .head .lbl,
+:root[data-theme="web-head"] .row > .lbl,
+:root[data-theme="web-head"] #colo{
+  display:inline-block; background:var(--accent-3); color:var(--ink);
+  border:2px solid var(--ink); padding:3px 9px; box-shadow:3px 3px 0 var(--ink);
+  transform:rotate(-1.4deg); font-weight:500;
+}
+:root[data-theme="web-head"] .row:nth-child(even) > .lbl{transform:rotate(1.6deg); background:var(--accent-2)}
+:root[data-theme="web-head"] .btn{border-width:2px; box-shadow:4px 4px 0 var(--ink)}
+:root[data-theme="web-head"] .btn.solid{color:var(--ink)}
+:root[data-theme="web-head"] .field{border-width:2px; box-shadow:6px 6px 0 var(--ink)}
+:root[data-theme="web-head"] .row:hover{background:color-mix(in srgb,var(--accent) 16%,transparent)}
+:root[data-theme="web-head"] .spec .r{border-bottom-style:dashed}
+
+/* ---------- stickers ---------- */
+section{position:relative}
+.stk{position:absolute; inset:0; z-index:3; pointer-events:none; overflow:visible}
+.sticker{position:absolute; pointer-events:auto; will-change:transform; transform-origin:50% 50%;
+  color:var(--accent); line-height:0;
+  transition:filter var(--dur) var(--ease)}
+.sticker svg{display:block; overflow:visible}
+.sticker[data-edge="1"]{display:none}
+@media (min-width:1560px){ .sticker[data-edge="1"]{display:block} }
+/* per-theme finish */
+:root[data-theme="mark-vii"] .sticker{opacity:.62; filter:drop-shadow(0 0 7px rgba(55,216,255,.4))}
+:root[data-theme="mark-vii"] .sticker:hover{opacity:1}
+:root[data-theme="web-head"] .sticker{
+  filter:drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff)
+         drop-shadow(0 -2.5px 0 #fff) drop-shadow(4px 5px 0 rgba(11,6,24,.6))}
+:root[data-theme="ki-surge"] .sticker{filter:drop-shadow(0 0 11px rgba(240,190,60,.55))}
+:root[data-theme="grand-line"] .sticker{opacity:.72; mix-blend-mode:multiply}
+:root[data-theme="banana-mode"] .sticker{
+  filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff)
+         drop-shadow(0 -3px 0 #fff) drop-shadow(4px 6px 0 rgba(23,20,16,.3))}
+@keyframes stkWob{0%,100%{rotate:-2.5deg}50%{rotate:2.5deg}}
+.sticker > span{display:block; transition:scale 240ms var(--ease)}
+.sticker:hover > span{scale:1.14}
+:root[data-theme="banana-mode"] .sticker > span{animation:stkWob 3.4s ease-in-out infinite;
+  animation-delay:var(--wd)}
+@media (prefers-reduced-motion:reduce){ .sticker > span{animation:none !important} }
 
 /* ---------- FX layers ---------- */
 #fxC,#fxS,#fxD,#fxI{position:fixed; inset:0; pointer-events:none}
@@ -482,15 +544,18 @@ const THEMES = {
   'web-head': {
     label:'Web-Head', src:'Spider-Man', cursor:'crosshair', mark:'WEB-HEAD',
     title:'Thwip.', eyebrow:'Skin 02 — Web-Head', field:'Click anywhere', charges:false,
-    spec:{ Cursor:'Crosshair with decaying silk trail', Shot:'Warped web line whipping straight, then a splat',
-           Sound:'Noise swoosh, fast pitch drop', Motion:'snap · 190ms · square corners' },
-    wipe:{ dir:'y', color:'accent', stagger:50, dur:220 },
+    spec:{ Cursor:'Crosshair on twos \u2014 stepped to 12fps, with a misregistered silk trail',
+           Shot:'Warped web line, Kirby krackle, CMYK shockwaves',
+           Sound:'Noise swoosh, fast pitch drop', Motion:'snap \u00b7 190ms \u00b7 chromatic aberration' },
+    wipe:{ dir:'y', colors:['accent','accent-2','accent-3','fg'], screen:true, color:'accent', stagger:46, dur:220 },
     recipe:[
-      {k:'beam',  anchor:'bl', color:'fg', w:2.2, amp:52, sag:30, dur:140, hold:70, recoil:160, seg:20, pw:'amp'},
-      {k:'stamp', shape:'web', size:120, dur:800, e:'back', color:'fg', delay:130, rough:true, pw:'size'},
-      {k:'word',  words:['THWIP!','SNAP!','KRAK!','BAM!'], color:'accent', fs:44, dur:800, delay:130, pw:'fs'},
-      {k:'wring', r0:8, r1:120, amp:.2, lobes:9, w:1.4, dur:440, color:'accent', pw:'r1'},
-      {k:'parts', n:11, spd:[2,7], drag:.9, grav:.14, curl:.03, life:[240,540], draw:'dot', add:false, pw:'n'},
+      {k:'beam',  anchor:'bl', color:'fg', w:2.6, amp:54, sag:32, dur:140, hold:70, recoil:160, seg:20, pw:'amp'},
+      {k:'stamp', shape:'krackle', size:150, dur:620, e:'back', color:'ink', delay:110, pw:'size'},
+      {k:'stamp', shape:'web', size:124, dur:800, e:'back', color:'fg', delay:130, rough:true, pw:'size'},
+      {k:'word',  words:['THWIP!','SNAP!','KRAK!','BAM!'], color:'accent-3', fs:46, dur:800, delay:130, pw:'fs'},
+      {k:'wring', r0:8,  r1:124, amp:.2,  lobes:9, w:2.4, dur:450, color:'accent',   pw:'r1'},
+      {k:'wring', r0:12, r1:152, amp:.26, lobes:7, w:1.8, dur:520, color:'accent-2', delay:55, pw:'r1'},
+      {k:'parts', n:13, spd:[2,8], drag:.9, grav:.14, curl:.03, life:[240,540], draw:'dot', add:false, pw:'n'},
     ],
     music:{ bpm:104, gain:.08, hat:[1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,1],
       bass:{wave:'square',   root:65.4,  cut:520,  dec:.2,  seq:[0,null,0,7,null,10,null,0,null,3,7,null,5,null,3,null]},
@@ -799,6 +864,17 @@ function inkSVG(size){
   return '<svg width="' + size + '" height="' + size + '" viewBox="' + (-h) + ' ' + (-h) + ' ' + size + ' ' + size + '">'
        + '<g fill="currentColor"><path d="' + d + 'Z"/>' + spray + '</g></svg>';
 }
+function krackleSVG(size){
+  const h = size / 2;
+  let g = '';
+  for (let i = 0; i < 9; i++){
+    const a = Math.random() * 6.283, d = rand(size * .16, size * .46);
+    g += '<circle cx="' + (Math.cos(a) * d).toFixed(1) + '" cy="' + (Math.sin(a) * d).toFixed(1)
+       + '" r="' + rand(size * .05, size * .13).toFixed(1) + '"/>';
+  }
+  return '<svg width="' + size + '" height="' + size + '" viewBox="' + (-h) + ' ' + (-h) + ' ' + size + ' ' + size + '">'
+       + '<g fill="currentColor" stroke="#F7F3EA" stroke-width="2.5">' + g + '</g></svg>';
+}
 function fxAt(cls, x, y, vars, dur){
   const host = document.createElement('div');
   host.className = 'fx';
@@ -908,7 +984,7 @@ function run(L, x, y, pwr, chg){
         const size = Math.round(L.size * mag(L, 'size', pwr, chg));
         const el = fxAt('fx-stamp', x, y, { '--r':(Math.random() * 360).toFixed(0) + 'deg', '--s':1,
           '--d':L.dur + 'ms', '--e':EASE[L.e] || EASE.out, '--c':'var(--' + L.color + ')' }, L.dur);
-        el.innerHTML = L.shape === 'web' ? webSVG(size) : inkSVG(size);
+        el.innerHTML = L.shape === 'web' ? webSVG(size) : L.shape === 'krackle' ? krackleSVG(size) : inkSVG(size);
         if (L.rough && FINE.matches) el.style.filter = 'url(#roughF)';   // warped, deckled edge
         break;
       }
@@ -1151,6 +1227,7 @@ const curEl = document.getElementById('cur'), curLab = document.getElementById('
 let mx = innerWidth / 2, my = innerHeight / 2;
 let dx = mx, dy = my, rx = mx, ry = my, pvx = mx, pvy = my;
 let curRot = 0, nVel = 0, nAng = 0;
+let twosT = 0, twosRX = mx, twosRY = my, twosDX = mx, twosDY = my, twosTick = false;
 
 document.getElementById('c-mark-vii').innerHTML =
   '<svg class="cs" width="80" height="80" viewBox="-40 -40 80 80"><g id="ret" fill="none" stroke="var(--accent)">'
@@ -1219,9 +1296,16 @@ function loop(now){
   const kd = 1 - Math.pow(1 - .42, dt), kr = 1 - Math.pow(1 - .16, dt);
   dx += (mx - dx) * kd; dy += (my - dy) * kd;
   rx += (mx - rx) * kr; ry += (my - ry) * kr;
-  curEl.style.transform = 'translate3d(' + rx.toFixed(2) + 'px,' + ry.toFixed(2) + 'px,0)';
+  let px = rx, py = ry, pdx = dx, pdy = dy;
+  if (current === 'web-head' && !calm()){          // animate on twos — one new pose every 12fps
+    twosT += dt * 16.667;
+    if (twosT >= 80){ twosT = 0; twosRX = rx; twosRY = ry; twosDX = dx; twosDY = dy; twosTick = true; }
+    else twosTick = false;
+    px = twosRX; py = twosRY; pdx = twosDX; pdy = twosDY;
+  }
+  curEl.style.transform = 'translate3d(' + px.toFixed(2) + 'px,' + py.toFixed(2) + 'px,0)';
   document.getElementById('dot').style.transform =
-    'translate3d(' + (dx - rx).toFixed(2) + 'px,' + (dy - ry).toFixed(2) + 'px,0)';
+    'translate3d(' + (pdx - px).toFixed(2) + 'px,' + (pdy - py).toFixed(2) + 'px,0)';
 
   const vx = mx - pvx, vy = my - pvy, speed = Math.hypot(vx, vy);
   velEMA = velEMA * .84 + speed * .16;
@@ -1257,6 +1341,7 @@ function loop(now){
     }
   }
 
+  placeStickers();
   ambient(dt);
   cx.clearRect(0, 0, W, H);
   if (active > 0){
@@ -1280,14 +1365,20 @@ function loop(now){
 
   if (current === 'web-head' && !calm()){
     const tn = now;
-    if (speed > .6) trail.push({ x:mx, y:my, t:tn });
-    while (trail.length && tn - trail[0].t > 190) trail.shift();
+    if (twosTick && speed > .6) trail.push({ x:mx, y:my, t:tn });
+    while (trail.length && tn - trail[0].t > 320) trail.shift();
     if (trail.length > 1){
-      cx.strokeStyle = col('fg'); cx.lineCap = 'round';
-      for (let i = 1; i < trail.length; i++){
-        const age = (tn - trail[i].t) / 190;
-        cx.globalAlpha = (1 - age) * .5; cx.lineWidth = (1 - age) * 3;
-        cx.beginPath(); cx.moveTo(trail[i - 1].x, trail[i - 1].y); cx.lineTo(trail[i].x, trail[i].y); cx.stroke();
+      cx.lineCap = 'round';
+      const passes = [[col('accent'), -2, 1.5], [col('accent-2'), 2, -1.5], [col('fg'), 0, 0]];
+      for (const [c, ox, oy] of passes){          // misregistered colour separations
+        cx.strokeStyle = c;
+        for (let i = 1; i < trail.length; i++){
+          const age = (tn - trail[i].t) / 320;
+          cx.globalAlpha = (1 - age) * .55; cx.lineWidth = (1 - age) * 3.4;
+          cx.beginPath();
+          cx.moveTo(trail[i - 1].x + ox, trail[i - 1].y + oy);
+          cx.lineTo(trail[i].x + ox, trail[i].y + oy); cx.stroke();
+        }
       }
       cx.globalAlpha = 1;
     }
@@ -1320,7 +1411,7 @@ addEventListener('pointerdown', e => {
   if (inRail(e.target)) return;
   if (T.charges){ charging = true; chargeStart = performance.now(); startChargeTone(); wake(); }
   else {
-    const hit = e.target.closest && e.target.closest('.btn,.row,.field');
+    const hit = e.target.closest && e.target.closest('.btn,.row,.field,.sticker');
     fire(e.clientX, e.clientY, hit, 0);
     if (hit) squash(hit);
   }
@@ -1331,7 +1422,7 @@ addEventListener('pointerup', e => {
   charging = false; stopChargeTone();
   meterFill.style.width = '0%'; chargeOut.textContent = 'Charge 000';
   if (!inRail(e.target)){
-    const hit = e.target.closest && e.target.closest('.btn,.row,.field');
+    const hit = e.target.closest && e.target.closest('.btn,.row,.field,.sticker');
     fire(e.clientX, e.clientY, hit, c);
     if (hit) squash(hit);
   }
@@ -1422,8 +1513,10 @@ function paintUI(){
   document.getElementById('fieldLabel').textContent = T.field;
   document.getElementById('fieldH').textContent  = T.charges ? 'Hold to charge' : 'Dynamic charge';
   document.getElementById('colo').textContent    = T.label + ' — after ' + T.src;
+  document.querySelectorAll('h1,h2').forEach(e => { e.dataset.text = e.textContent; });
   document.getElementById('specBox').innerHTML = Object.keys(T.spec).map(k =>
     '<div class="r"><dt class="lbl">' + k + '</dt><dd>' + T.spec[k] + '</dd></div>').join('');
+  renderStickers();
   [...nav.children].forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === current)));
   ORDER.forEach(k => CUR[k].classList.toggle('on', k === current));
   requestAnimationFrame(cacheRects);
@@ -1443,7 +1536,9 @@ function setTheme(k){
   const panels = [];
   for (let i = 0; i < N; i++){
     const p = document.createElement('div');
-    p.className = 'p'; p.style.background = 'var(--' + w.color + ')';
+    p.className = 'p';
+    p.style.background = 'var(--' + (w.colors ? w.colors[i % w.colors.length] : w.color) + ')';
+    if (w.screen) p.style.mixBlendMode = 'screen';
     if (w.dir === 'flood'){ p.style.left = '0'; p.style.width = '100%'; p.style.top = '-40%'; p.style.height = '180%'; p.style.borderRadius = '50%'; }
     else if (w.dir === 'x'){ p.style.left = '0'; p.style.width = '100%'; p.style.top = (i * 25) + '%'; p.style.height = '26%'; }
     else { p.style.left = (i * 25) + '%'; p.style.width = '26%'; }
@@ -1530,6 +1625,251 @@ setInterval(() => {
   const orb = document.getElementById('orb');
   if (orb) orb.setAttribute('transform', 'scale(' + (1 + c * 1.6).toFixed(2) + ')');
 }, 40);
+
+
+/* ============================================================
+   14 · STICKERS — generated decals, one set per skin.
+   Finish (die-cut / stencil / ink stamp / foil) is CSS.
+   ============================================================ */
+const SV = (w, h, inner) =>
+  '<svg width="' + w + '" height="' + h + '" viewBox="' + (-w / 2) + ' ' + (-h / 2) + ' ' + w + ' ' + h + '">' + inner + '</svg>';
+const TXT = (y, size, fam, fill, tr, t) =>
+  '<text x="0" y="' + y + '" text-anchor="middle" font-family="' + fam + '" font-size="' + size
+  + '" letter-spacing="' + tr + '" fill="' + fill + '">' + t + '</text>';
+const MONO = 'IBM Plex Mono,ui-monospace,monospace';
+function starPath(n, r1, r2){
+  let d = '';
+  for (let i = 0; i < n * 2; i++){
+    const a = i / (n * 2) * 6.283 - Math.PI / 2, r = i % 2 ? r2 : r1;
+    d += (i ? 'L' : 'M') + (Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1);
+  }
+  return d + 'Z';
+}
+function rivets(x, y, w, h, r){
+  return [[x, y], [x + w, y], [x, y + h], [x + w, y + h]]
+    .map(c => '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + (r || 2) + '" fill="currentColor"/>').join('');
+}
+const ART = {
+  /* --- Mark VII · stencilled armour plates --- */
+  'mk-plate': () => SV(112, 48,
+    '<rect x="-54" y="-22" width="108" height="44" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+    + TXT(7, 17, MONO, 'currentColor', 4, 'MK VII') + rivets(-47, -15, 94, 30)),
+  'mk-data': () => SV(132, 42,
+    '<rect x="-64" y="-19" width="128" height="38" fill="none" stroke="currentColor" stroke-width="1.2"/>'
+    + '<line x1="-64" y1="-4" x2="64" y2="-4" stroke="currentColor" stroke-width=".8" opacity=".6"/>'
+    + TXT(-8, 9, MONO, 'currentColor', 2.6, 'REPULSOR OUTPUT')
+    + TXT(12, 13, MONO, 'currentColor', 3, '2.41 GW')),
+  'mk-reactor': () => {
+    let g = '';
+    for (let i = 0; i < 10; i++){
+      const a = i / 10 * 6.283;
+      g += '<line x1="' + (Math.cos(a) * 16).toFixed(1) + '" y1="' + (Math.sin(a) * 16).toFixed(1)
+         + '" x2="' + (Math.cos(a) * 28).toFixed(1) + '" y2="' + (Math.sin(a) * 28).toFixed(1) + '"/>';
+    }
+    return SV(80, 80, '<g fill="none" stroke="currentColor" stroke-width="1.4">'
+      + '<circle r="35"/><circle r="28"/><circle r="16"/><circle r="7"/>' + g + '</g>');
+  },
+  'mk-warn': () => SV(92, 86,
+    '<path d="M0,-34 L37,30 L-37,30 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+    + '<path d="M5,-14 L-9,7 L0,7 L-4,22 L11,-1 L2,-1 Z" fill="currentColor"/>'),
+  'mk-target': () => SV(78, 78,
+    '<g fill="none" stroke="currentColor" stroke-width="1.3"><circle r="32" stroke-dasharray="3 7"/><circle r="19"/>'
+    + '<path d="M0,-36V-24M0,36V24M-36,0H-24M36,0H24"/></g><circle r="3" fill="currentColor"/>'),
+
+  /* --- Web-Head · Spider-Verse die-cut stickers --- */
+  'sv-caption': () => SV(172, 50,
+    '<rect x="-84" y="-23" width="168" height="46" fill="#FFE600" stroke="#0B0618" stroke-width="3"/>'
+    + TXT(9, 23, 'Bangers,Impact,cursive', '#0B0618', 1.4, 'MEANWHILE…')),
+  'sv-bubble': () => SV(124, 86,
+    '<path d="M-56,-34 h112 a10,10 0 0 1 10,10 v40 a10,10 0 0 1 -10,10 h-52 l-20,18 l3,-18 h-43 '
+    + 'a10,10 0 0 1 -10,-10 v-40 a10,10 0 0 1 10,-10 z" fill="#F7F3EA" stroke="#0B0618" stroke-width="3.2"/>'
+    + TXT(8, 26, 'Bangers,Impact,cursive', '#0B0618', 1, 'HEY!')),
+  'sv-pow': () => SV(120, 120,
+    '<path d="' + starPath(11, 58, 33) + '" fill="#EA3D8A" stroke="#0B0618" stroke-width="3"/>'
+    + '<path d="' + starPath(11, 34, 18) + '" fill="none" stroke="#FFE600" stroke-width="2" opacity=".75"/>'
+    + '<text x="0" y="12" text-anchor="middle" font-family="Bangers,Impact,cursive" font-size="31"'
+    + ' fill="#FFFFFF" stroke="#0B0618" stroke-width="5" paint-order="stroke" letter-spacing="1">POW!</text>'),
+  'sv-web': () => {
+    let sp = '', rg = '';
+    for (let i = 0; i <= 4; i++){
+      const a = -Math.PI / 2 + i / 4 * (Math.PI / 2);
+      sp += 'M0,0L' + (Math.cos(a) * 74).toFixed(1) + ',' + (Math.sin(a) * 74).toFixed(1);
+    }
+    for (let k = 1; k <= 4; k++){
+      const r = k * 17;
+      for (let i = 0; i < 4; i++){
+        const a1 = -Math.PI / 2 + i / 4 * (Math.PI / 2), a2 = -Math.PI / 2 + (i + 1) / 4 * (Math.PI / 2);
+        const am = (a1 + a2) / 2;
+        rg += (i === 0 ? 'M' + (Math.cos(a1) * r).toFixed(1) + ',' + (Math.sin(a1) * r).toFixed(1) : '')
+            + 'Q' + (Math.cos(am) * r * .78).toFixed(1) + ',' + (Math.sin(am) * r * .78).toFixed(1)
+            + ' ' + (Math.cos(a2) * r).toFixed(1) + ',' + (Math.sin(a2) * r).toFixed(1);
+      }
+    }
+    return '<svg width="86" height="86" viewBox="-6 -80 86 86"><g fill="none" stroke="#F7F3EA" '
+      + 'stroke-width="2.6" stroke-linecap="round"><path d="' + sp + '"/><path d="' + rg + '"/></g></svg>';
+  },
+  'sv-krackle': () => {
+    let g = '';
+    for (let i = 0; i < 8; i++){
+      const a = i / 8 * 6.283 + rand(-.3, .3), d = rand(14, 34);
+      g += '<circle cx="' + (Math.cos(a) * d).toFixed(1) + '" cy="' + (Math.sin(a) * d).toFixed(1)
+         + '" r="' + rand(5, 12).toFixed(1) + '"/>';
+    }
+    return SV(94, 94, '<g fill="#0B0618" stroke="#22D3EE" stroke-width="2.6">' + g + '</g>');
+  },
+  'sv-thwip': () => SV(148, 60,
+    '<path d="' + starPath(13, 72, 44) + '" fill="#22D3EE" stroke="#0B0618" stroke-width="3" transform="scale(1,.5)"/>'
+    + TXT(9, 30, 'Bangers,Impact,cursive', '#0B0618', 1.6, 'THWIP!')),
+
+  /* --- Ki Surge · foil power decals --- */
+  'ki-scouter': () => SV(140, 46,
+    '<path d="M-68,-21 h126 l10,10 v22 h-126 l-10,-10 z" fill="none" stroke="currentColor" stroke-width="1.6"/>'
+    + TXT(-3, 9, MONO, 'currentColor', 3, 'POWER LEVEL')
+    + TXT(14, 15, MONO, 'currentColor', 2, '9001')),
+  'ki-bolt': () => SV(62, 96,
+    '<path d="M9,-44 L-21,8 L-3,8 L-11,44 L23,-8 L3,-8 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'),
+  'ki-burst': () => SV(112, 112,
+    '<path d="' + starPath(12, 54, 20) + '" fill="currentColor" opacity=".9"/>'
+    + '<circle r="13" fill="none" stroke="var(--bg)" stroke-width="3"/>'),
+  'ki-aura': () => SV(74, 100,
+    '<path d="M0,-46 C20,-20 30,-6 28,12 C26,34 12,46 0,46 C-12,46 -26,34 -28,12 C-30,-6 -20,-20 0,-46 Z" '
+    + 'fill="none" stroke="currentColor" stroke-width="2"/>'
+    + '<path d="M0,-24 C10,-8 15,2 14,14 C13,27 6,34 0,34 C-6,34 -13,27 -14,14 C-15,2 -10,-8 0,-24 Z" fill="currentColor" opacity=".55"/>'),
+
+  /* --- Grand Line · letterpress ink stamps --- */
+  'gl-compass': () => {
+    let t = '';
+    for (let i = 0; i < 4; i++){
+      const a = i / 4 * 6.283;
+      t += '<path d="M' + (Math.cos(a) * 40).toFixed(1) + ',' + (Math.sin(a) * 40).toFixed(1)
+        + 'L' + (Math.cos(a + .35) * 11).toFixed(1) + ',' + (Math.sin(a + .35) * 11).toFixed(1)
+        + 'L' + (Math.cos(a - .35) * 11).toFixed(1) + ',' + (Math.sin(a - .35) * 11).toFixed(1) + 'Z"/>';
+    }
+    return SV(108, 108, '<g fill="currentColor">' + t + '</g>'
+      + '<g fill="none" stroke="currentColor" stroke-width="1.6"><circle r="47"/><circle r="43" stroke-dasharray="2 6"/></g>'
+      + TXT(-49, 12, 'Cormorant Garamond,Georgia,serif', 'currentColor', 1, 'N'));
+  },
+  'gl-seal': () => {
+    let d = 'M';
+    for (let i = 0; i <= 18; i++){
+      const a = i / 18 * 6.283, r = 38 * (1 + Math.sin(i * 2.3) * .07);
+      d += (i ? 'L' : '') + (Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1);
+    }
+    return SV(92, 92, '<path d="' + d + 'Z" fill="currentColor"/>'
+      + '<path d="' + starPath(5, 20, 9) + '" fill="none" stroke="var(--bg)" stroke-width="2.4"/>');
+  },
+  'gl-skull': () => SV(96, 96,
+    '<g fill="currentColor"><path d="M-30,-34 h60 v36 q0,12 -12,14 l-4,12 h-28 l-4,-12 q-12,-2 -12,-14 z"/></g>'
+    + '<g fill="var(--bg)"><ellipse cx="-13" cy="-10" rx="8" ry="10"/><ellipse cx="13" cy="-10" rx="8" ry="10"/>'
+    + '<rect x="-3" y="4" width="6" height="9"/></g>'
+    + '<g stroke="currentColor" stroke-width="7" stroke-linecap="round">'
+    + '<line x1="-36" y1="34" x2="36" y2="46"/><line x1="-36" y1="46" x2="36" y2="34"/></g>'),
+  'gl-rope': () => SV(96, 96,
+    '<g fill="none" stroke="currentColor" stroke-linecap="round">'
+    + '<circle r="40" stroke-width="7" stroke-dasharray="9 7"/><circle r="31" stroke-width="2" opacity=".7"/></g>'),
+  'gl-route': () => SV(120, 80,
+    '<path d="M-54,26 C-26,-22 6,34 52,-22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="8 7"/>'
+    + '<g stroke="currentColor" stroke-width="5" stroke-linecap="round">'
+    + '<line x1="40" y1="-32" x2="62" y2="-12"/><line x1="62" y1="-32" x2="40" y2="-12"/></g>'),
+
+  /* --- Banana Mode · thick die-cut toy stickers --- */
+  'bn-goggle': () => SV(136, 66,
+    '<g fill="none" stroke="#171410" stroke-width="5"><line x1="-66" y1="0" x2="66" y2="0"/></g>'
+    + '<circle cx="-27" cy="0" r="27" fill="#C9CDD2" stroke="#171410" stroke-width="5"/>'
+    + '<circle cx="27" cy="0" r="27" fill="#C9CDD2" stroke="#171410" stroke-width="5"/>'
+    + '<circle cx="-27" cy="0" r="16" fill="#fff"/><circle cx="27" cy="0" r="16" fill="#fff"/>'
+    + '<circle cx="-24" cy="2" r="8" fill="#171410"/><circle cx="30" cy="2" r="8" fill="#171410"/>'),
+  'bn-banana': () => SV(108, 86,
+    '<path d="M-44,10 C-41,-22 -12,-38 36,-34 C39,-14 10,22 -26,32 C-38,30 -44,22 -44,10 Z" '
+    + 'fill="#F7C400" stroke="#171410" stroke-width="5" stroke-linejoin="round"/>'
+    + '<path d="M36,-34 l11,-8" stroke="#171410" stroke-width="5" stroke-linecap="round"/>'),
+  'bn-patch': () => SV(126, 58,
+    '<rect x="-61" y="-27" width="122" height="54" rx="14" fill="#24406E" stroke="#171410" stroke-width="4"/>'
+    + '<rect x="-53" y="-19" width="106" height="38" rx="9" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="6 5"/>'
+    + TXT(9, 24, 'Luckiest Guy,Impact,cursive', '#fff', 1, 'NEW!')),
+  'bn-bubble': () => SV(140, 84,
+    '<path d="M-64,-32 h128 a12,12 0 0 1 12,12 v34 a12,12 0 0 1 -12,12 h-62 l-24,18 l4,-18 h-46 '
+    + 'a12,12 0 0 1 -12,-12 v-34 a12,12 0 0 1 12,-12 z" fill="#fff" stroke="#171410" stroke-width="4.5"/>'
+    + TXT(10, 27, 'Luckiest Guy,Impact,cursive', '#171410', 1, 'BELLO!')),
+  'bn-star': () => SV(104, 104,
+    '<path d="' + starPath(8, 50, 24) + '" fill="#6E2A82" stroke="#171410" stroke-width="4.5" stroke-linejoin="round"/>'
+    + TXT(9, 21, 'Luckiest Guy,Impact,cursive', '#fff', .5, 'POP')),
+};
+
+/* s = section index, x/y = % within it, r = rotation, sc = scale,
+   d = parallax depth, e = 1 means edge-only (needs a wide viewport) */
+const STICKERS = {
+  'mark-vii': [
+    { a:'mk-reactor', s:0, x:109, y:30, r:-9,  sc:1,   d:.020, e:1 },
+    { a:'mk-data',    s:0, x:-8, y:58, r:-4,  sc:.92, d:.030, e:1 },
+    { a:'mk-target',  s:1, x:85, y:66, r:7,   sc:.88, d:.016, e:0 },
+    { a:'mk-plate',   s:1, x:16, y:88, r:-3,  sc:.8,  d:.022, e:0 },
+    { a:'mk-warn',    s:2, x:-8, y:34, r:8,   sc:.78, d:.026, e:1 },
+    { a:'mk-reactor', s:3, x:109, y:64, r:14,  sc:.66, d:.024, e:1 },
+  ],
+  'web-head': [
+    { a:'sv-caption', s:0, x:109, y:30, r:-7,  sc:.8,  d:.026, e:1 },
+    { a:'sv-web',     s:0, x:-8, y:56, r:0,   sc:1,   d:.018, e:1 },
+    { a:'sv-pow',     s:1, x:86, y:64, r:11,  sc:.84, d:.020, e:0 },
+    { a:'sv-bubble',  s:1, x:17, y:87, r:-5,  sc:.78, d:.024, e:0 },
+    { a:'sv-krackle', s:2, x:-8, y:36, r:0,   sc:.9,  d:.030, e:1 },
+    { a:'sv-thwip',   s:3, x:109, y:60, r:-13, sc:.82, d:.022, e:1 },
+  ],
+  'ki-surge': [
+    { a:'ki-burst',   s:0, x:109, y:30, r:6,   sc:.9,  d:.022, e:1 },
+    { a:'ki-scouter', s:0, x:-8, y:58, r:-4,  sc:.92, d:.030, e:1 },
+    { a:'ki-bolt',    s:1, x:87, y:64, r:12,  sc:.9,  d:.018, e:0 },
+    { a:'ki-aura',    s:1, x:15, y:86, r:-6,  sc:.8,  d:.024, e:0 },
+    { a:'ki-bolt',    s:2, x:-8, y:34, r:-16, sc:.7,  d:.028, e:1 },
+    { a:'ki-scouter', s:3, x:109, y:62, r:9,   sc:.72, d:.022, e:1 },
+  ],
+  'grand-line': [
+    { a:'gl-compass', s:0, x:109, y:30, r:-8,  sc:.95, d:.020, e:1 },
+    { a:'gl-route',   s:0, x:-8, y:60, r:-5,  sc:.92, d:.030, e:1 },
+    { a:'gl-skull',   s:1, x:86, y:64, r:9,   sc:.86, d:.018, e:0 },
+    { a:'gl-seal',    s:1, x:15, y:87, r:-11, sc:.8,  d:.024, e:0 },
+    { a:'gl-rope',    s:2, x:-8, y:34, r:14,  sc:.76, d:.028, e:1 },
+    { a:'gl-compass', s:3, x:109, y:62, r:16,  sc:.66, d:.022, e:1 },
+  ],
+  'banana-mode': [
+    { a:'bn-goggle',  s:0, x:109, y:30, r:-8,  sc:.92, d:.022, e:1 },
+    { a:'bn-patch',   s:0, x:-8, y:58, r:-6,  sc:.9,  d:.030, e:1 },
+    { a:'bn-banana',  s:1, x:86, y:64, r:14,  sc:.88, d:.018, e:0 },
+    { a:'bn-bubble',  s:1, x:17, y:87, r:-5,  sc:.78, d:.024, e:0 },
+    { a:'bn-star',    s:2, x:-8, y:34, r:10,  sc:.78, d:.028, e:1 },
+    { a:'bn-banana',  s:3, x:109, y:62, r:-18, sc:.66, d:.022, e:1 },
+  ],
+};
+
+let stickers = [];
+function renderStickers(){
+  document.querySelectorAll('.stk').forEach(n => n.remove());
+  stickers = [];
+  const list = STICKERS[current]; if (!list) return;
+  const secs = [...document.querySelectorAll('main > section')];
+  const layers = secs.map(sec => { const d = document.createElement('div'); d.className = 'stk'; sec.appendChild(d); return d; });
+  list.forEach((st, i) => {
+    const L = layers[st.s]; if (!L || !ART[st.a]) return;
+    const el = document.createElement('div');
+    el.className = 'sticker';
+    el.dataset.edge = st.e ? '1' : '0';
+    el.style.left = st.x + '%'; el.style.top = st.y + '%';
+    el.style.setProperty('--wd', (-i * .73).toFixed(2) + 's');
+    const sp = document.createElement('span');
+    sp.style.transform = 'rotate(' + st.r + 'deg) scale(' + st.sc + ')';
+    sp.innerHTML = ART[st.a]();
+    el.appendChild(sp); L.appendChild(el);
+    stickers.push({ el, d: st.d });
+  });
+  placeStickers();
+}
+function placeStickers(){
+  if (!stickers.length) return;
+  const ox = mx - W / 2, oy = my - H / 2;
+  for (const s of stickers)
+    s.el.style.transform = 'translate(-50%,-50%) translate('
+      + (ox * s.d).toFixed(1) + 'px,' + (oy * s.d).toFixed(1) + 'px)';
+}
 
 /* ---- boot ---- */
 root.dataset.theme = current; root.dataset.cs = 'idle';
